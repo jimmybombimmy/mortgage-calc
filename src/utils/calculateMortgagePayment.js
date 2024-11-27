@@ -1,19 +1,25 @@
-export default function calculateMortgagePayments(loanAmount, annualInterestRate, loanTermYears, monthlyPayment) {
+export default function calculateMortgagePayments(
+  loanAmount,
+  annualInterestRate,
+  loanTermYears,
+  monthlyPayment
+) {
   const monthlyInterestRate = annualInterestRate / 12 / 100; // Convert annual rate to monthly decimal
   const totalPayments = loanTermYears * 12; // Total number of payments (months)
 
-  let payment
   // Calculate fixed monthly payment (M) if not already provided
-  // if (monthlyPayment) {
-  //   payment = monthlyPayment
-  // } else {
-    payment = loanAmount * 
-      (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalPayments)) /
-      (Math.pow(1 + monthlyInterestRate, totalPayments) - 1);
+  let payment;
 
-      // }
-      console.log("payment", loanAmount, payment)
-      
+  if (monthlyPayment) {
+    payment = monthlyPayment;
+  } else {
+    payment =
+      (loanAmount *
+        (monthlyInterestRate *
+          Math.pow(1 + monthlyInterestRate, totalPayments))) /
+      (Math.pow(1 + monthlyInterestRate, totalPayments) - 1);
+  }
+
   let remainingBalance = loanAmount;
   const paymentSchedule = [];
 
