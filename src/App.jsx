@@ -1,18 +1,17 @@
 import "./App.css";
 import calculateMortgagePayments from "./utils/calculateMortgagePayment";
+import calculateSavings from "./utils/calculateSavings";
 
-//todo is currently
-
-function App() {
+export default function App() {
   const mortgageDetails = {
     loanAmount: 200000,
     annualInterestRate: 5,
-    loanTermYears: 300,
+    loanTermYears: 30,
   };
 
-  const overpayment = 50
+  const overpayment = 100
 
-
+  calculateSavings(mortgageDetails, overpayment)
 
   return (
     <main>
@@ -27,5 +26,3 @@ function App() {
     </main>
   );
 }
-
-export default App;
