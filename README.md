@@ -12,10 +12,10 @@ This will then calculate the amount of money in interest saved for the remainder
 
 ## TODO
 
-#### utils/calculateSavings - Make it so that the monthly payment for postOverpaymentTable is the same as preOverpaymentTable
-- **ISSUE**: Monthly payments are currently being calculated relative to the balance. The monthly payments need to be the same for the balance calculated before and after the payment
-- **FIX**: Add an optional parameter to calculateMortgagePayments to override the monthly payment amount, then just reduce the final payment
+#### utils/calculateSavings - Make it so that Term is calculated in months, not years
 
-#### App.jsx - Create form allowing user to fill in their details and return calculation to them
+#### App.jsx - Process form to give interest saved
 
-#### utils/numToGBP - Create a function that takes the balance and returns it as a GBP string
+#### App.jsx - Then create dropdown menu to provide the breakdown of how this is worked out
+
+#### App.css - Make the form look presentable
