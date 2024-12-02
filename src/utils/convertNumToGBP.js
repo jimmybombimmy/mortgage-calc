@@ -10,7 +10,10 @@ export default function convertNumToGBP(value, setValue) {
     valueOutput += valueNumOnly[i]
   }
 
-  setValue(valueOutput)
+  if (setValue) {
+    setValue(valueOutput)
+
+  }
 
   return valueOutput
 }

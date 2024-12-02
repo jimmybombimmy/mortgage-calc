@@ -77,3 +77,10 @@ input {
 	position:relative;
 	top:1px;
 }
+
+.mortgage-details {
+  border: 1px solid black;
+  padding: 12px 50px;
+  justify-self: center;
+  text-align: center;
+}

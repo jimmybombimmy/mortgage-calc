@@ -5,9 +5,9 @@ export default function calculateSavings(mortgageInfo, overpayment) {
   console.log("Pre Overpayment Table", preOverpaymentTable)
 
   const newLoanAmount = mortgageInfo.loanAmount - overpayment
-  const preOverpaymentMonthlyPayment = preOverpaymentTable[0].totalPayment
+  const monthlyPayment = preOverpaymentTable[0].totalPayment
 
-  const postOverpaymentTable = calculateMortgagePayments(newLoanAmount, mortgageInfo.annualInterestRate, mortgageInfo.loanTermMonths, preOverpaymentMonthlyPayment)
+  const postOverpaymentTable = calculateMortgagePayments(newLoanAmount, mortgageInfo.annualInterestRate, mortgageInfo.loanTermMonths, monthlyPayment)
   console.log("Post Overpayment Table", postOverpaymentTable)
 
   const savingsCalculated = []
@@ -30,5 +30,5 @@ export default function calculateSavings(mortgageInfo, overpayment) {
   console.log("Savings Calculated:", savingsCalculated)
   console.log("Total Interest Saved:", totalInterestSaved)
 
-  return savingsCalculated
+  return {savingsCalculated, totalInterestSaved, monthlyPayment}
 }

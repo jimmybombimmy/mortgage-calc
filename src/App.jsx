@@ -10,6 +10,8 @@ export default function App() {
   let [interest, setInterest] = useState(5);
   let [term, setTerm] = useState([25, 0]);
   let [overpayment, setOverpayment] = useState("£100");
+  let [totalSavings, setTotalSavings] = useState("")
+  let [submittedDetails, setSubmittedDetails] = useState(undefined)
 
   const handleSubmit = (e) => {
     const mortgageDetails = {
@@ -18,12 +20,16 @@ export default function App() {
       loanTermMonths: Number(term[0] * 12) + Number(term[1]),
     };
     e.preventDefault();
-    calculateSavings(mortgageDetails, convertGBPToNum(overpayment));
+
+    const savings = calculateSavings(mortgageDetails, convertGBPToNum(overpayment));
+    setTotalSavings("£" + savings.totalInterestSaved)
+
+    setSubmittedDetails({...mortgageDetails, overpayment, monthlyPayment: savings.monthlyPayment})
   };
 
   return (
     <main>
-      <h1>Mortgage Overpayment Savings Calulcator</h1>
+      <h1>Mortgage Overpayment Savings Calculator</h1>
       <h2></h2>
       <form onSubmit={handleSubmit}>
         <div className="label-inner">
@@ -47,6 +53,7 @@ export default function App() {
             name="interest"
             defaultValue={interest}
             step="0.1"
+            onChange={(e) => setInterest(e.target.value)}
           />
         </div>
         <br />
@@ -85,6 +92,19 @@ export default function App() {
         <br />
         <button className="form-button" type="submit">Submit</button>
       </form>
+      
+      <h1>Total Savings: {totalSavings}</h1>
+      {submittedDetails !== undefined ? (
+        <div className="mortgage-details">
+        <h2>Mortgage Details</h2>
+        <p>Original Balance: {amount}</p>
+        <p>Overpayment amount: {overpayment}</p>
+        <p>New Balance: {  convertNumToGBP(String(convertGBPToNum(amount) - convertGBPToNum(overpayment)))}</p>
+        <p>Total Term: {term[0]} Years, {term[1]} Months</p>
+        <p>Interest: (APR) {interest}%</p>
+        <p>Monthly Payment: {"£" + submittedDetails.monthlyPayment}</p>
+        </div>
+    ) : (<></>)}
     </main>
   );
 }
