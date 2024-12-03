@@ -1,5 +1,6 @@
 import "./App.css";
 import calculateSavings from "./utils/calculateSavings";
+import Graph from "./Graph";
 import { useState } from "react";
 
 import convertNumToGBP from "./utils/convertNumToGBP";
@@ -9,7 +10,8 @@ export default function App() {
   let [amount, setAmount] = useState("£200,000");
   let [interest, setInterest] = useState(5);
   let [term, setTerm] = useState([25, 0]);
-  let [overpayment, setOverpayment] = useState("£100");
+  let [singleOverpayment, setSingleOverpayment] = useState("£100");
+  let [monthlyOverpayment, setMonthlyOverpayment] = useState("£50")
   let [totalSavings, setTotalSavings] = useState("")
   let [submittedDetails, setSubmittedDetails] = useState(undefined)
 
@@ -21,14 +23,15 @@ export default function App() {
     };
     e.preventDefault();
 
-    const savings = calculateSavings(mortgageDetails, convertGBPToNum(overpayment));
+    const savings = calculateSavings(mortgageDetails, convertGBPToNum(singleOverpayment), convertGBPToNum(monthlyOverpayment));
     setTotalSavings("£" + savings.totalInterestSaved)
 
-    setSubmittedDetails({...mortgageDetails, overpayment, monthlyPayment: savings.monthlyPayment})
+    setSubmittedDetails({...mortgageDetails, singleOverpayment, monthlyOverpayment, savings})
   };
 
   return (
     <main>
+      <section className="main-left">
       <h1>Mortgage Overpayment Savings Calculator</h1>
       <h2></h2>
       <form onSubmit={handleSubmit}>
@@ -79,32 +82,48 @@ export default function App() {
           />
         </div>
         <div className="label-inner">
-          <label htmlFor="overpayment">
-            <strong>Overpayment amount</strong> -{" "}
+          <label htmlFor="singleOverpayment">
+            <strong>Single Overpayment amount</strong> -{" "}
           </label>
           <input
             type="text"
-            name="overpayment"
-            value={overpayment}
-            onChange={(e) => convertNumToGBP(e.target.value, setOverpayment)}
+            name="singleOverpayment"
+            value={singleOverpayment}
+            onChange={(e) => convertNumToGBP(e.target.value, setSingleOverpayment)}
+          />
+        </div>
+        <div className="label-inner">
+          <label htmlFor="singleOverpayment">
+            <strong>Monthly Overpayment amount</strong> -{" "}
+          </label>
+          <input
+            type="text"
+            name="singleOverpayment"
+            value={monthlyOverpayment}
+            onChange={(e) => convertNumToGBP(e.target.value, setMonthlyOverpayment)}
           />
         </div>
         <br />
         <button className="form-button" type="submit">Submit</button>
       </form>
+      </section>
+      <section className="main-right">
       
-      <h1>Total Savings: {totalSavings}</h1>
       {submittedDetails !== undefined ? (
         <div className="mortgage-details">
         <h2>Mortgage Details</h2>
         <p>Original Balance: {amount}</p>
-        <p>Overpayment amount: {overpayment}</p>
-        <p>New Balance: {  convertNumToGBP(String(convertGBPToNum(amount) - convertGBPToNum(overpayment)))}</p>
+        <p>Single Overpayment amount: {singleOverpayment}</p>
+        <p>Monthly Overpayment amount: {monthlyOverpayment}</p>
+        <p>New Balance: {  convertNumToGBP(String(convertGBPToNum(amount) - convertGBPToNum(singleOverpayment)))}</p>
         <p>Total Term: {term[0]} Years, {term[1]} Months</p>
         <p>Interest: (APR) {interest}%</p>
-        <p>Monthly Payment: {"£" + submittedDetails.monthlyPayment}</p>
+        <p>Monthly Payment: {"£" + submittedDetails.savings.monthlyPayment}</p>
         </div>
     ) : (<></>)}
+    <h1>Total Savings: {totalSavings}</h1>
+    {submittedDetails !== undefined ? (<Graph data={submittedDetails}/>) : (<p>No data</p>)}
+    </section>
     </main>
   );
 }

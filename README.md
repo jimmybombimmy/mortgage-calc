@@ -12,10 +12,8 @@ This will then calculate the amount of money in interest saved for the remainder
 
 ## TODO
 
-#### utils/calculateSavings - Make it so that Term is calculated in months, not years
-
-#### App.jsx - Process form to give interest saved
-
 #### App.jsx - Then create dropdown menu to provide the breakdown of how this is worked out
 
-#### App.css - Make the form look presentable
+#### App.jsx - Update Mortgage details so that it doesn't update with every change of values above
+
+#### Graph.js - Make the graph bigger
